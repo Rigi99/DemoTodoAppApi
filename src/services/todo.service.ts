@@ -13,6 +13,9 @@ class TodoService implements ITodoService {
     }
 
     addTodo(todo: Todo): boolean {
+        if (myTodos.some(existingTodo => existingTodo.text === todo.text)) {
+            return false;
+        }
         do {
             todo.id = Math.floor(Math.random() * 1000);
         } while (myTodos.some(existingTodo => existingTodo.id === todo.id));

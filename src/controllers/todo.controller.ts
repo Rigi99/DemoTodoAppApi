@@ -13,7 +13,7 @@ todoRouter.get('/', (_req, res) => {
 todoRouter.get('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     if(Number.isNaN(id)) {
-        return res.status(500).send('Error');
+        return res.status(500).send('Parse error!');
     }
     const todo = TodoService.getTodo(id);
     if(todo){
@@ -27,13 +27,13 @@ todoRouter.post('/', (req, res) => {
     if(success){
         return res.status(200).send('Adding Todo was successful!');
     }
-    return res.status(401).send('Adding Todo failed!');
+    return res.status(401).send('Adding Todo failed! This Todo already exists!');
 });
 
 todoRouter.put('/:id', (req, res) => {
     const id = parseInt(req.params.id);
     if(Number.isNaN(id)) {
-        return res.status(500).send('Error');
+        return res.status(500).send('Parse error!');
     }
     const success = TodoService.updateTodo(id, req.body);
     if(success){
