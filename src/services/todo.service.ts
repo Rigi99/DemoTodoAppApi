@@ -13,7 +13,9 @@ class TodoService implements ITodoService {
     }
 
     addTodo(todo: Todo): boolean {
-        todo.id = Math.floor(Math.random() * 1000);
+        do {
+            todo.id = Math.floor(Math.random() * 1000);
+        } while (myTodos.some(existingTodo => existingTodo.id === todo.id));
         myTodos.push(todo);
         return true;
     }
