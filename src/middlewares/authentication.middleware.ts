@@ -5,8 +5,7 @@ import { getUserBySessionToken } from '../models/user.model';
 export const isOwner = (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
         const { id } = req.params;
-        const currentUserId: string | undefined = get(req, 'identity._id');
-
+        const currentUserId: any = (get(req, 'identity._id') as any).toString();
         if (!currentUserId) {
             return res.status(401).send({ error: 'You are not logged in as an owner.' });
         }
@@ -14,7 +13,6 @@ export const isOwner = (req: express.Request, res: express.Response, next: expre
         if (currentUserId !== id) {
             return res.status(403).send({ error: 'You are not logged in as an owner.' });
         }
-
         next();
     } catch (error) {
         console.log(error);

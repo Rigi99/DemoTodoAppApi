@@ -1,5 +1,5 @@
 import express from 'express'
-import {deleteUserById, getUserById, getUsers} from '../models/user.model'
+import {deleteUserById, getUserById, getUsers, updateUserById} from '../models/user.model'
 
 export const getAllUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     try {
@@ -24,18 +24,14 @@ export const deleteUser = async (req: express.Request, res: express.Response) =>
 
 export const updateUser = async (req: express.Request, res: express.Response) => {
     try{
-        const {id} = req.body;
-        const { username } = req.body;
-        if(!username) {
-            return res.status(400).send({error: "No username!"});
-        }
+        const {id} = req.params;
         const user = await getUserById(id);
         if(!user){
             return res.status(400).send({error: "No such user!"});
         }
-        user.username = username;
-        await user.save();
-        return res.status(200).json(user).end();
+        await updateUserById(id, req.body);
+        const updatedUser = await updateUserById(id, req.body);
+        return res.status(200).json(updatedUser).end();
     } catch (error){
         console.error(error);
         return res.status(400).send({error: 'Something went wrong'})
