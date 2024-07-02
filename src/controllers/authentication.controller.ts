@@ -1,5 +1,5 @@
 import express from 'express';
-import {createUser, getUserByEmail} from "../models/user.model";
+import {createUser, getUserByEmail, getUserById} from "../models/user.model";
 import {random, authentication} from "../helpers/index.helper";
 
 export const register = async (req: express.Request, res: express.Response) => {
@@ -60,5 +60,25 @@ export const login = async (req: express.Request, res: express.Response) => {
     } catch (error) {
         console.log(error);
         return res.status(400).send({error: "Username, email or password"});
+    }
+}
+
+export const logout = async (req: express.Request, res: express.Response) => {
+    try {
+        const {id} = req.params;
+        const user = await getUserById(id);
+        if (!user) {
+            return res.status(404).send({ error: "User not found" });
+        }
+        if(!user.authentication){
+            return res.status(400).send({ error: "Invalid user authentication data" });
+        }
+        user.authentication.sessionToken = null;
+        await user.save();
+        res.clearCookie('DEMO-TODO-APP-API-AUTH', { domain: 'localhost', path: '/' });
+        return res.status(200).send({ message: "Logout successful" });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).send({ error: "Server error" });
     }
 }

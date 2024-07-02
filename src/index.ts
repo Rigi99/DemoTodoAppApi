@@ -1,10 +1,10 @@
 import express from 'express';
 import {errorHandler} from "./middlewares/error.handler";
-import todoRouter from "./routes/todo.route"
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import router from "./routes/index.route";
 import cookieParser from 'cookie-parser';
+import cors from 'cors'
 
 const app = express();
 const port = 3000;
@@ -13,6 +13,10 @@ const port = 3000;
 app.use(bodyParser.json());
 app.use(errorHandler);
 app.use(cookieParser());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true
+}));
 
 //routes
 app.use("/", router());
