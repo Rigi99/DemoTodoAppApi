@@ -3,9 +3,9 @@ import {getTodos, getTodoById, updateTodo, deleteTodo, addTodo} from "../control
 import {login, register} from "../controllers/authentication.controller";
 
 export default (router: Router) => {
-    router.get('/', getTodos);
-    router.get('/:id', getTodoById);
-    router.put('/:id', updateTodo);
-    router.delete('/:id', deleteTodo);
-    router.post('/', addTodo);
+    router.get('/todos', getTodos);
+    router.get('/todos/:id', getTodoById);
+    router.put('/todos/:id', updateTodo);
+    router.delete('/todos/:id', deleteTodo);
+    router.post('/todos', addTodo);
 };

@@ -15,7 +15,6 @@ app.use(errorHandler);
 app.use(cookieParser());
 
 //routes
-app.use("/api/todos", todoRouter);
 app.use("/", router());
 
 mongoose.connect("mongodb+srv://rigmanyizsombor1016:468520Zso!@backendtodoapp.zl33qyr.mongodb.net/BackendTodoApp?retryWrites=true&w=majority&appName=BackendTodoApp")
