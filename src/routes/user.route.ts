@@ -1,6 +1,6 @@
 import express from 'express'
 import {deleteUser, getAllUsers, updateUser} from "../controllers/users.controller";
-import {isAuthenticated, isOwner} from "../middlewares/index.middleware";
+import {isAuthenticated, isOwner} from "../middlewares/authentication.middleware";
 
 export default (router: express.Router) => {
     router.get('/users', isAuthenticated, getAllUsers);

@@ -1,12 +1,11 @@
 import {Router} from "express";
 import {getTodos, getTodoById, updateTodo, deleteTodo, addTodo} from "../controllers/todo.controller";
+import {login, register} from "../controllers/authentication.controller";
 
-const todoRouter = Router();
-
-todoRouter.get('/', getTodos);
-todoRouter.get('/:id', getTodoById);
-todoRouter.put('/:id', updateTodo);
-todoRouter.delete('/:id', deleteTodo);
-todoRouter.post('/', addTodo);
-
-export default todoRouter;
+export default (router: Router) => {
+    router.get('/', getTodos);
+    router.get('/:id', getTodoById);
+    router.put('/:id', updateTodo);
+    router.delete('/:id', deleteTodo);
+    router.post('/', addTodo);
+};
