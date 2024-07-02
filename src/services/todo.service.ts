@@ -12,7 +12,7 @@ class TodoService implements ITodoService {
         }
     }
 
-    async getTodo(id: number): Promise<Todo | null> {
+    async getTodo(id: string): Promise<Todo | null> {
         try {
             return await TodoModel.findById(id);
         } catch (error) {
@@ -32,7 +32,7 @@ class TodoService implements ITodoService {
         }
     }
 
-    async updateTodo(id: number, todo: Todo): Promise<boolean> {
+    async updateTodo(id: string, todo: Todo): Promise<boolean> {
         try {
             const updatedTodo = await TodoModel.findByIdAndUpdate(id, todo, { new: true });
             return updatedTodo != null;
@@ -42,7 +42,7 @@ class TodoService implements ITodoService {
         }
     }
 
-    async deleteTodo(id: number): Promise<boolean> {
+    async deleteTodo(id: string): Promise<boolean> {
         try {
             const deletedTodo = await TodoModel.findByIdAndDelete(id);
             return deletedTodo != null;
