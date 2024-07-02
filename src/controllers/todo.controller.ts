@@ -1,57 +1,73 @@
-import {Router} from "express";
-import {Todo} from "../types/todo";
+import { Request, Response } from 'express';
 import TodoService from "../services/todo.service";
 
-export const myTodos: Todo[] = [];
-const todoRouter = Router();
+export const getTodos = async (req: Request, res: Response) => {
+    try {
+        const todos = await TodoService.getAllTodos();
+        res.status(200).send(todos);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching todos', error });
+    }
+};
 
-todoRouter.get('/', (_req, res) => {
-    const todos = TodoService.getAllTodos()
-    return res.status(200).send({data: todos});
-});
+export const getTodoById = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).send({ message: 'Invalid ID format' });
+        }
+        const todo = await TodoService.getTodo(id);
+        if (!todo) {
+            return res.status(404).send({ message: 'Todo not found' });
+        }
+        res.status(200).send(todo);
+    } catch (error) {
+        res.status(500).send({ message: 'Error fetching todo', error });
+    }
+};
 
-todoRouter.get('/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    if(Number.isNaN(id)) {
-        return res.status(500).send('Parse error!');
+export const addTodo = async (req: Request, res: Response) => {
+    try {
+        const success = await TodoService.addTodo(req.body);
+        if (success) {
+            res.status(201).send({ message: 'Todo added successfully' });
+        } else {
+            res.status(500).send({ message: 'Error adding todo' });
+        }
+    } catch (error) {
+        res.status(500).send({ message: 'Error adding todo', error });
     }
-    const todo = TodoService.getTodo(id);
-    if(todo){
-        return res.status(200).send({data: todo});
-    }
-    return res.status(404).send('Todo Not Found!');
-});
+};
 
-todoRouter.post('/', (req, res) => {
-    const success = TodoService.addTodo(req.body);
-    if(success){
-        return res.status(200).send('Adding Todo was successful!');
+export const updateTodo = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).send({ message: 'Invalid ID format' });
+        }
+        const success = await TodoService.updateTodo(id, req.body);
+        if (!success) {
+            return res.status(404).send({ message: 'Todo not found' });
+        }
+        const updatedTodo = await TodoService.getTodo(id);
+        res.status(200).send(updatedTodo);
+    } catch (error) {
+        res.status(500).send({ message: 'Error updating todo', error });
     }
-    return res.status(401).send('Adding Todo failed! This Todo already exists!');
-});
+};
 
-todoRouter.put('/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    if(Number.isNaN(id)) {
-        return res.status(500).send('Parse error!');
+export const deleteTodo = async (req: Request, res: Response) => {
+    try {
+        const id = parseInt(req.params.id);
+        if (isNaN(id)) {
+            return res.status(400).send({ message: 'Invalid ID format' });
+        }
+        const success = await TodoService.deleteTodo(id);
+        if (!success) {
+            return res.status(404).send({ message: 'Todo not found' });
+        }
+        res.status(200).send({ message: 'Todo deleted successfully' });
+    } catch (error) {
+        res.status(500).send({ message: 'Error deleting todo', error });
     }
-    const success = TodoService.updateTodo(id, req.body);
-    if(success){
-        return res.status(200).send('Updating Todo was successful!');
-    }
-    return res.status(401).send('Failed to update Todo!');
-});
-
-todoRouter.delete('/:id', (req, res) => {
-    const id = parseInt(req.params.id);
-    if(Number.isNaN(id)) {
-        return res.status(500).send('Error');
-    }
-    const success = TodoService.deleteTodo(id);
-    if(success){
-        return res.status(200).send('Todo deleted successfully!');
-    }
-    return res.status(401).send('Failed to delete Todo!');
-});
-
-export default todoRouter;
+};
