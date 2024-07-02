@@ -1,7 +1,7 @@
 import express from 'express'
 import {deleteUserById, getUserById, getUsers, updateUserById} from '../models/user.model'
 
-export const getAllUsers = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
+export const getAllUsers = async (_req: express.Request, res: express.Response, _next: express.NextFunction) => {
     try {
         const users = await getUsers();
         return res.status(200).json(users);
