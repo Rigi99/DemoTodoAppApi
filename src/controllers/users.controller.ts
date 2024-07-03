@@ -18,7 +18,7 @@ export const getUser = async (req: express.Request, res: express.Response, _next
         if (!user) {
             return res.status(404).send({ error: 'User not found' });
         }
-        return res.status(200).json(user);
+        return res.status(200).send({user: user});
     } catch (error) {
         console.error(error);
         res.status(400).send({ error: 'Something went wrong' });

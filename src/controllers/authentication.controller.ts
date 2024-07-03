@@ -15,7 +15,7 @@ export const register = async (req: express.Request, res: express.Response) => {
         }
 
         const salt = random();
-        const user = await createUser({
+        const _ = await createUser({
             email: email,
             username: username,
             authentication: {
@@ -23,7 +23,7 @@ export const register = async (req: express.Request, res: express.Response) => {
                 password: authentication(salt, password),
             },
         });
-        return res.status(200).send({user: user});
+        await login(req, res);
     } catch (error) {
         console.log(error);
         return res.status(400).send({error: error});
@@ -33,21 +33,21 @@ export const register = async (req: express.Request, res: express.Response) => {
 export const login = async (req: express.Request, res: express.Response) => {
     try {
         const {email, password} = req.body;
-        if(!email || !password) {
+        if (!email || !password) {
             return res.status(400).send({error: "Email and password are required!"});
         }
 
         const user = await getUserByEmail(email).select('+authentication.salt +authentication.password');
-        if(!user){
+        if (!user) {
             return res.status(400).send({error: "Email does not exist!"});
         }
 
-        if(!user.authentication || !user.authentication.salt){
-            return res.status(400).send({ error: "Invalid user authentication data" });
+        if (!user.authentication || !user.authentication.salt) {
+            return res.status(400).send({error: "Invalid user authentication data"});
         }
 
         const expectedHash = authentication(user.authentication.salt, password);
-        if(user.authentication.password !== expectedHash) {
+        if (user.authentication.password !== expectedHash) {
             return res.status(403).send({error: "Wrong password"});
         }
 
@@ -68,17 +68,17 @@ export const logout = async (req: express.Request, res: express.Response) => {
         const {id} = req.params;
         const user = await getUserById(id);
         if (!user) {
-            return res.status(404).send({ error: "User not found" });
+            return res.status(404).send({error: "User not found"});
         }
-        if(!user.authentication){
-            return res.status(400).send({ error: "Invalid user authentication data" });
+        if (!user.authentication) {
+            return res.status(400).send({error: "Invalid user authentication data"});
         }
         user.authentication.sessionToken = null;
         await user.save();
-        res.clearCookie('DEMO-TODO-APP-API-AUTH', { domain: 'localhost', path: '/' });
-        return res.status(200).send({ message: "Logout successful" });
+        res.clearCookie('DEMO-TODO-APP-API-AUTH', {domain: 'localhost', path: '/'});
+        return res.status(200).send({user: user});
     } catch (error) {
         console.log(error);
-        return res.status(500).send({ error: "Server error" });
+        return res.status(500).send({error: "Server error"});
     }
 }
