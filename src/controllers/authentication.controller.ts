@@ -15,7 +15,7 @@ export const register = async (req: express.Request, res: express.Response) => {
         }
 
         const salt = random();
-        const _ = await createUser({
+        await createUser({
             email: email,
             username: username,
             authentication: {
