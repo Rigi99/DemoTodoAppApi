@@ -1,7 +1,8 @@
 export type Todo = {
     id: number;
-    text: string;
-    done: boolean;
+    title: string;
+    description: string;
+    deadline: Date,
     status: TodoStatus;
 }
 

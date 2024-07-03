@@ -6,7 +6,8 @@ export const getTodos = async (_req: Request, res: Response) => {
         const todos = await TodoService.getAllTodos();
         res.status(200).send(todos);
     } catch (error) {
-        res.status(500).send({ message: 'Error fetching todos', error });
+        console.error('Error fetching todos:', error);
+        res.status(500).send({ message: 'Error fetching todos' });
     }
 };
 
@@ -19,7 +20,8 @@ export const getTodoById = async (req: Request, res: Response) => {
         }
         res.status(200).send(todo);
     } catch (error) {
-        res.status(500).send({ message: 'Error fetching todo', error });
+        console.error('Error fetching todo by ID:', error);
+        res.status(500).send({ message: 'Error fetching todo' });
     }
 };
 
@@ -32,7 +34,8 @@ export const addTodo = async (req: Request, res: Response) => {
             res.status(500).send({ message: 'Error adding todo' });
         }
     } catch (error) {
-        res.status(500).send({ message: 'Error adding todo', error });
+        console.error('Error adding todo:', error);
+        res.status(500).send({ message: 'Error adding todo' });
     }
 };
 
@@ -46,7 +49,8 @@ export const updateTodo = async (req: Request, res: Response) => {
         const updatedTodo = await TodoService.getTodo(id);
         res.status(200).send(updatedTodo);
     } catch (error) {
-        res.status(500).send({ message: 'Error updating todo', error });
+        console.error('Error updating todo:', error);
+        res.status(500).send({ message: 'Error updating todo' });
     }
 };
 
@@ -59,6 +63,7 @@ export const deleteTodo = async (req: Request, res: Response) => {
         }
         res.status(200).send({ message: 'Todo deleted successfully' });
     } catch (error) {
-        res.status(500).send({ message: 'Error deleting todo', error });
+        console.error('Error deleting todo:', error);
+        res.status(500).send({ message: 'Error deleting todo' });
     }
 };

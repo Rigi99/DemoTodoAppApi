@@ -5,9 +5,12 @@ import mongoose from "mongoose";
 import router from "./routes/index.route";
 import cookieParser from 'cookie-parser';
 import cors from 'cors'
+import dotenv from 'dotenv';
 
 const app = express();
 const port = 3000;
+
+dotenv.config();
 
 //middleware
 app.use(bodyParser.json());
@@ -21,7 +24,8 @@ app.use(cors({
 //routes
 app.use("/", router());
 
-mongoose.connect("mongodb+srv://rigmanyizsombor1016:468520Zso!@backendtodoapp.zl33qyr.mongodb.net/BackendTodoApp?retryWrites=true&w=majority&appName=BackendTodoApp")
+const mongoURI = process.env.MONGODB_URI as string;
+mongoose.connect(mongoURI)
     .then(() => {
         console.log("Database Connected");
         app.listen(port, () => {
@@ -30,4 +34,5 @@ mongoose.connect("mongodb+srv://rigmanyizsombor1016:468520Zso!@backendtodoapp.zl
     })
     .catch(() => {
         console.log("Connection Failed");
-    })
+    });
+

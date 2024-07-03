@@ -1,18 +1,22 @@
 import mongoose from 'mongoose'
 
 const TodoSchema = new mongoose.Schema({
-        text: {
+        title: {
             type: String,
             required: true,
         },
-        done: {
-            type: Boolean,
+        description: {
+            type: String,
             default: false,
+        },
+        deadline: {
+            type: Date,
+            required: true,
         },
         status: {
             type: String,
             default: 'open',
-        }
+        },
     }, {
         timestamps: true
     }
