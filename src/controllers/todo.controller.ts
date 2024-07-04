@@ -27,9 +27,9 @@ export const getTodoById = async (req: Request, res: Response) => {
 
 export const addTodo = async (req: Request, res: Response) => {
     try {
-        const success = await TodoService.addTodo(req.body);
-        if (success) {
-            res.status(201).send({ message: 'Todo added successfully' });
+        const todo = await TodoService.addTodo(req.body);
+        if (todo) {
+            res.status(201).send(todo);
         } else {
             res.status(500).send({ message: 'Error adding todo' });
         }

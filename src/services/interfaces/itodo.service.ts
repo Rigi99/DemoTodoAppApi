@@ -5,9 +5,9 @@ export interface ITodoService {
 
     getTodo(id: string): Promise<Todo | null>;
 
-    addTodo(todo: Todo): Promise<boolean>;
+    addTodo(todo: Todo): Promise<Todo | null>
 
-    updateTodo(id: string, todo: Todo): Promise<boolean>;
+    updateTodo(id: string, todo: Todo): Promise<Todo | null>;
 
     deleteTodo(id: string): Promise<boolean>;
 }

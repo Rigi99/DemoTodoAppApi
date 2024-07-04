@@ -21,24 +21,23 @@ class TodoService implements ITodoService {
         }
     }
 
-    async addTodo(todo: Todo): Promise<boolean> {
+    async addTodo(todo: Todo): Promise<Todo | null> {
         try {
             const newTodo = new TodoModel(todo);
             await newTodo.save();
-            return true;
+            return await TodoModel.findById(newTodo._id);
         } catch (error) {
             console.error('Error adding todo:', error);
-            return false;
+            return null;
         }
     }
 
-    async updateTodo(id: string, todo: Todo): Promise<boolean> {
+    async updateTodo(id: string, todo: Todo): Promise<Todo | null> {
         try {
-            const updatedTodo = await TodoModel.findByIdAndUpdate(id, todo, { new: true });
-            return updatedTodo != null;
+            return await TodoModel.findByIdAndUpdate(id, todo, { new: true });
         } catch (error) {
             console.error(`Error updating todo with id ${id}:`, error);
-            return false;
+            return null;
         }
     }
 
