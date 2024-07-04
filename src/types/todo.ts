@@ -4,6 +4,7 @@ export type Todo = {
     description: string;
     deadline: Date,
     status: TodoStatus;
+    assignedTo: string;
 }
 
 export type TodoStatus = "done" | "inProgress" | "open";

@@ -1,11 +1,11 @@
-import { Todo } from "../types/todo";
-import { ITodoService } from "./interfaces/itodo.service";
+import {Todo} from "../types/todo";
+import {ITodoService} from "./interfaces/itodo.service";
 import TodoModel from "../models/todo.model";
 
 class TodoService implements ITodoService {
-    async getAllTodos(): Promise<Todo[] | null> {
+    async getAllTodos(assignedTo: string): Promise<Todo[] | null> {
         try {
-            return await TodoModel.find({});
+            return await TodoModel.find({assignedTo: assignedTo});
         } catch (error) {
             console.error('Error fetching todos:', error);
             return null;
@@ -34,7 +34,7 @@ class TodoService implements ITodoService {
 
     async updateTodo(id: string, todo: Todo): Promise<Todo | null> {
         try {
-            return await TodoModel.findByIdAndUpdate(id, todo, { new: true });
+            return await TodoModel.findByIdAndUpdate(id, todo, {new: true});
         } catch (error) {
             console.error(`Error updating todo with id ${id}:`, error);
             return null;

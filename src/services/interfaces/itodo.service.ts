@@ -1,7 +1,7 @@
 import {Todo} from "../../types/todo";
 
 export interface ITodoService {
-    getAllTodos(): Promise<Todo[] | null>;
+    getAllTodos(assignedTo: string): Promise<Todo[] | null>;
 
     getTodo(id: string): Promise<Todo | null>;
 

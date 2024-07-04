@@ -1,9 +1,10 @@
 import { Request, Response } from 'express';
 import TodoService from "../services/todo.service";
 
-export const getTodos = async (_req: Request, res: Response) => {
+export const getTodos = async (req: Request, res: Response) => {
     try {
-        const todos = await TodoService.getAllTodos();
+        const {assignedTo} = req.params;
+        const todos = await TodoService.getAllTodos(assignedTo);
         res.status(200).send(todos);
     } catch (error) {
         console.error('Error fetching todos:', error);

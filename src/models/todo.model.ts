@@ -15,6 +15,9 @@ const TodoSchema = new mongoose.Schema({
             type: String,
             default: 'open',
         },
+        assignedTo: {
+            type: String,
+        },
     }, {
         timestamps: true
     }
