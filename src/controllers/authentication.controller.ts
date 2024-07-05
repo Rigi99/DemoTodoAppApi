@@ -1,16 +1,15 @@
-import express from 'express';
-import { AuthenticationService } from '../services/authentication.service';
+import AuthenticationService from '../services/authentication.service';
+import { Request, Response } from 'express';
 
-const authenticationService = new AuthenticationService();
 
-export const register = (req: express.Request, res: express.Response) => {
-    return authenticationService.register(req, res);
+export const register = (req: Request, res: Response) => {
+    return AuthenticationService.register(req, res);
 }
 
-export const login = (req: express.Request, res: express.Response) => {
-    return authenticationService.login(req, res);
+export const login = (req: Request, res: Response) => {
+    return AuthenticationService.login(req, res);
 }
 
-export const logout = (req: express.Request, res: express.Response) => {
-    return authenticationService.logout(req, res);
+export const logout = (req: Request, res: Response) => {
+    return AuthenticationService.logout(req, res);
 }

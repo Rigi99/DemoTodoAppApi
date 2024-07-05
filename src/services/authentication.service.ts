@@ -3,7 +3,7 @@ import {createUser, getUserByEmail, getUserById} from '../models/user.model';
 import {random, authentication} from '../helpers/index.helper';
 import {IAuthenticationService} from './interfaces/iauthentication.service';
 
-export class AuthenticationService implements IAuthenticationService {
+class AuthenticationService implements IAuthenticationService {
     public async register(req: Request, res: Response): Promise<Response> {
         try {
             const {email, password, username} = req.body;
@@ -85,3 +85,5 @@ export class AuthenticationService implements IAuthenticationService {
         }
     }
 }
+
+export default new AuthenticationService();
